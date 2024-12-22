@@ -9,7 +9,7 @@ import PassengerSelector from "./PassengerSelector/PassengerSelector";
 
 const SearchBar = () => {
   return (
-    <div className="w-3/4 bg-gray-100 h-14  rounded-xl flex shadow-lg">
+    <div className=" bg-gray-100 h-14 rounded-xl flex shadow-lg">
       <div className="grid grid-cols-4 gap-1 py-0.5 px-1">
         <InputBase
           placeholder="Départ"
@@ -22,7 +22,7 @@ const SearchBar = () => {
         <DateSelector />
         <PassengerSelector/>
       </div>
-      <Button  className="bg-blueMain h-full pl-4 min-w-36 rounded-r-xl text-white font-semibold text-md ">
+      <Button radius="none"  className="bg-blueMain h-full pl-4 min-w-36 rounded-r-xl text-white font-semibold text-md ">
         Rechercher
       </Button>
     </div>

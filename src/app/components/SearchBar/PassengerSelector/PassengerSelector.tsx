@@ -40,7 +40,7 @@ const PassengerSelector = () => {
       </PopoverTrigger>
       <PopoverContent>
         <div className="flex items-center justify-between p-2 gap-10 font-semibold">
-          <p className="">Passager</p>
+          <p className="select-none">Passager</p>
           <div className="flex items-center gap-3">
             <Minus
               onClick={onDescreaseHandler}
@@ -49,7 +49,7 @@ const PassengerSelector = () => {
                 passenger > 1 ? "passenger_button_available" : ""
               }`}
             />
-            <p>{passenger}</p>
+            <p className="select-none">{passenger}</p>
 
             <Plus
               onClick={onAddHandler}

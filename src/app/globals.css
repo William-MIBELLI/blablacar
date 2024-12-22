@@ -10,4 +10,17 @@
   .passenger_button_available {
     @apply cursor-pointer border-blueMain text-blueMain
   }
+
+  /* [popover] {
+    position: absolute;
+    inset: 0;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    border: solid;
+    padding: 0.25em;
+    overflow: auto;
+    color: CanvasText;
+    background-color: Canvas;
+  } */
 }

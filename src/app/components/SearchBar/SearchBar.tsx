@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, CalendarDate } from "@nextui-org/react";
 import {  ArrowLeftRight, Circle } from "lucide-react";
 import DateSelector from "./DateSelector/DateSelector";
 import InputBase from "./Input/InputBase";
@@ -27,6 +27,14 @@ const SearchBar = () => {
     setTrip(newTrip);
   }
 
+  const getDateFromInput = (dateValue: CalendarDate) => {
+    const date = dateValue.toDate('utc')
+    setTrip({...trip, date})
+  }
+
+  useEffect(() => {
+    console.log('TRIP : ', trip);
+  }, [trip]);
   
   const switchFromTo = () => {
     const newFrom = trip.to;
@@ -57,7 +65,7 @@ const SearchBar = () => {
           onChangeAddress={onAddressChange}
           defaultAd={trip.to}
         />
-        <DateSelector />
+        <DateSelector dateChanger={getDateFromInput} />
         <PassengerSelector/>
       </div>
       <Button radius="none"  className="bg-blueMain h-full pl-4 min-w-36 rounded-r-xl text-white font-semibold text-md ">

@@ -29,7 +29,7 @@ const PassengerSelector = () => {
         <Button
           className="h-full flex justify-between bg-gray-100"
           // startContent={}
-          endContent={<ChevronDown />}
+          endContent={<ChevronDown className="text-gray-400" />}
         >
           <div className="flex items-center text-gray-500 font-semibold">
           <UserRound />

@@ -5,9 +5,13 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { ChevronDown, Minus, Plus, UserRound } from "lucide-react";
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
-const PassengerSelector = () => {
+interface IProps {
+  handleNb: (nb: number) => void;
+}
+
+const PassengerSelector: FC<IProps> = ({ handleNb }) => {
   const [passenger, setPassenger] = useState<number>(1);
   const MAX_PASSENGER = 8;
 
@@ -23,6 +27,11 @@ const PassengerSelector = () => {
     }
   };
 
+  //PASSAGE DU NOMBRE DE PASSAGE AU TRIP
+  useEffect(() => {
+    handleNb(passenger);
+  },[passenger])
+
   return (
     <Popover placement="bottom">
       <PopoverTrigger>
@@ -31,8 +40,8 @@ const PassengerSelector = () => {
           // startContent={}
           endContent={<ChevronDown className="text-gray-400" />}
         >
-          <div className="flex items-center text-gray-500 font-semibold">
-          <UserRound />
+          <div className="flex items-center  font-semibold">
+          <UserRound className="text-blueMain"/>
           {`${passenger} passager${passenger > 1 ? "s" : ""}`}
 
           </div>

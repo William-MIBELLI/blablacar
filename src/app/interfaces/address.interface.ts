@@ -1,4 +1,4 @@
-export interface Feature {
+interface Feature {
   type: "Feature";
   geometry: {
     type: "Point";
@@ -20,5 +20,6 @@ export interface Feature {
     context: "11, Aude, Occitanie";
     importance: 0.48213;
     municipality: "Carcassonne";
+    _type: string
   };
 }

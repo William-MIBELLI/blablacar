@@ -13,20 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Trip {
+  id            String   @id
+  origin        Address  @relation("origin", fields: [originId], references: [id])
+  originId      String
+  destination   Address  @relation("destination", fields: [destinationId], references: [id])
+  destinationId String
+  date          DateTime
+  passengers    Int
+  driver        String
+}
+
 model Address {
-  id String @id 
-  label String 
-  score Float
-  banId String
-  type String
-  name String
-  postCode String
-  cityCode String
-  x Float
-  y Float
-  population Int
-  city String
-  context String
-  importance Float
+  id           String @id
+  label        String
+  score        Float
+  banId        String
+  type         String
+  name         String
+  postcode     String
+  citycode     String
+  x            Float
+  y            Float
+  population   Int
+  city         String
+  context      String
+  importance   Float
   municipality String
+  tripFrom     Trip[] @relation("origin")
+  tripTo       Trip[] @relation("destination")
 }

@@ -1,36 +1,39 @@
 "use client";
-import { Feature } from "@/app/interfaces/address.interface";
-import { getAddressFromAPI } from "@/app/lib/requests/address.request";
+// import { Feature } from "@/app/interfaces/address.interface";
+import { createAddress, getAddressFromAPI } from "@/app/lib/requests/address.request";
 import { Input, InputProps } from "@nextui-org/react";
 import React, { FC, useEffect, useRef, useState } from "react";
-import SearchBar from "../SearchBar";
+import SearchBar, { NameBase } from "../SearchBar";
 import AddressList from "../AddressList/AddressList";
 import { Circle } from "lucide-react";
+import { Address } from "@prisma/client";
 
 interface IProps extends InputProps {
-  onChangeAddress: (ad: Feature, origin: "from" | "to") => void;
-  name: "from" | "to";
-  defaultAd: Feature | undefined;
+  onChangeAddress: (ad: Address, origin: "from" | "to") => void;
+  name: NameBase;
+  defaultAd: Address | undefined;
 }
 
 const InputBase: FC<IProps> = ({ onChangeAddress, defaultAd, ...args }) => {
   const startRef = useRef<number>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [address, setAddress] = useState<Feature[]>();
-  const [selectedAddress, setSelectedAddress] = useState<Feature>();
+  const [address, setAddress] = useState<Address[]>();
+  const [selectedAddress, setSelectedAddress] = useState<Address>();
   const [value, setValue] = useState<string>();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLDivElement>(null);
 
+  //REMISE A ZERO DU COMPOSANT
   useEffect(() => {
     if (defaultAd) {
       setSelectedAddress(defaultAd)
-      setValue(defaultAd.properties.city);
+      setValue(defaultAd.city);
       return;
     }
     setValue(prev => "")
     setSelectedAddress(undefined)
+    setAddress(undefined)
   }, [defaultAd]);
   
 
@@ -80,11 +83,11 @@ const InputBase: FC<IProps> = ({ onChangeAddress, defaultAd, ...args }) => {
   }, [isOpen]);
 
   //SELECTION D'UNE ADRESSE
-  const onSelectAddress = (ad: Feature) => {
+  const onSelectAddress = async (ad: Address) => {
     setSelectedAddress(ad);
-    setValue(ad.properties.city);
+    setValue(ad.city);
     setIsOpen(false);
-    onChangeAddress(ad, args.name);
+    onChangeAddress(ad, args.name === 'fromBase' ? 'from' : 'to');
   };
 
   return (
@@ -93,8 +96,8 @@ const InputBase: FC<IProps> = ({ onChangeAddress, defaultAd, ...args }) => {
         color={undefined}
         ref={inputRef}
         classNames={{
-          base: `h-full`,
-          inputWrapper: "h-full",
+          base: `h-full `,
+          inputWrapper: `h-full  ${args.errorMessage ? 'border-red-400 border border-2' : ''}`,
           input: "font-semibold ",
 
         }}
@@ -104,6 +107,13 @@ const InputBase: FC<IProps> = ({ onChangeAddress, defaultAd, ...args }) => {
         onFocus={() => address && setIsOpen(true)}
         startContent={<Circle className={`${selectedAddress ? 'text-blueMain' : 'text-gray-400'}`} />}
       />
+      {
+        args.errorMessage && (
+          <p className="absolute top-100 mt-2 ml-5 font-semibold text-xs  text-red-500 ">
+            {args.errorMessage.toString()}
+          </p>
+        )
+      }
       {address && isOpen && (
         <div
           ref={addressRef}

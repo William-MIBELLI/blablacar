@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import {Button} from '@nextui-org/react'
-import SearchBar from './components/SearchBar/SearchBar'
+import SearchBar from '@/components/SearchBar/SearchBar'
 
 export default function Home() {
   return (

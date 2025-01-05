@@ -1,6 +1,6 @@
 "use client";
 // import { Feature } from "@/app/interfaces/address.interface";
-import { createAddress, getAddressFromAPI } from "@/app/lib/requests/address.request";
+import { createAddress, getAddressFromAPI } from "@/lib/requests/address.request";
 import { Input, InputProps } from "@nextui-org/react";
 import React, { FC, useEffect, useRef, useState } from "react";
 import SearchBar, { NameBase } from "../SearchBar";

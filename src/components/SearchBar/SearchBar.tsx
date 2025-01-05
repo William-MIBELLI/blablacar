@@ -9,10 +9,10 @@ import PassengerSelector from "./PassengerSelector/PassengerSelector";
 import { Trip } from "@/interfaces/trip.interface";
 import { Address } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { createTripACTION } from "@/app/lib/actions/trip.action";
+import { createTripACTION } from "@/lib/actions/trip.action";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { TripFrontSchema } from "@/app/lib/zod";
+import { TripFrontSchema } from "@/lib/zod";
 import { useRouter } from "next/navigation";
 // import { Feature } from "@/app/interfaces/address.interface";
 

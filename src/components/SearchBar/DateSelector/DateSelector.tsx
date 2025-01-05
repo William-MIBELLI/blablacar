@@ -11,7 +11,7 @@ import React, { FC, useState } from "react";
 import InputBase from "../Input/InputBase";
 import type { CalendarDate, DateValue } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
-import { formatDate } from "@/app/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 
 interface IProps {

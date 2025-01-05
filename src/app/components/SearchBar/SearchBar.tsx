@@ -6,16 +6,17 @@ import { ArrowLeftRight, Circle } from "lucide-react";
 import DateSelector from "./DateSelector/DateSelector";
 import InputBase from "./Input/InputBase";
 import PassengerSelector from "./PassengerSelector/PassengerSelector";
-import { Trip } from "@/app/interfaces/trip.interface";
+import { Trip } from "@/interfaces/trip.interface";
 import { Address } from "@prisma/client";
 import { useFormState } from "react-dom";
 import { createTripACTION } from "@/app/lib/actions/trip.action";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { TripSchema } from "@/app/lib/zod";
+import { TripFrontSchema } from "@/app/lib/zod";
+import { useRouter } from "next/navigation";
 // import { Feature } from "@/app/interfaces/address.interface";
 
-export type NameBase = 'fromBase' | 'toBase'
+export type NameBase = "fromBase" | "toBase";
 const SearchBar = () => {
   const [trip, setTrip] = useState<Partial<Trip>>({
     from: undefined,
@@ -23,8 +24,8 @@ const SearchBar = () => {
     date: new Date(),
     driver: "1945d7bd-85a1-4b32-ab52-50a287fee6ec",
     passengers: 1,
-    
   });
+  const router = useRouter();
 
   const onAddressChange = (ad: Address, origin: "from" | "to") => {
     const newTrip: Partial<Trip> = {
@@ -44,7 +45,7 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    console.log('TRIP : ', trip);
+    // console.log('TRIP : ', trip);
   }, [trip]);
 
   const switchFromTo = () => {
@@ -66,8 +67,8 @@ const SearchBar = () => {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      const validation = parseWithZod(formData, { schema: TripSchema });
-      console.log('VALIDATION : ', validation);
+      const validation = parseWithZod(formData, { schema: TripFrontSchema });
+      // console.log('VALIDATION : ', validation);
       return validation;
     },
     shouldValidate: "onBlur",
@@ -76,6 +77,9 @@ const SearchBar = () => {
 
   useEffect(() => {
     console.log("STATE : ", lastResult);
+    if (lastResult?.success && lastResult.trip) {
+      router.push(`/creation/success/${lastResult.trip.id}`)
+    }
   }, [lastResult]);
 
   return (
@@ -109,21 +113,21 @@ const SearchBar = () => {
         type="text"
         hidden
         name={fields.from.name}
-        defaultValue={trip.from?.city}
+        defaultValue={trip.from?.id}
         key={fields.from.key}
       />
       <input
         type="text"
         hidden
         name={fields.to.name}
-        defaultValue={trip.to?.city}
+        defaultValue={trip.to?.id}
         key={fields.to.key}
       />
-  
+
       <div className="flex items-center gap-1 py-0.5 px-1">
         <InputBase
           placeholder="Départ"
-          name='fromBase'
+          name="fromBase"
           onChangeAddress={onAddressChange}
           defaultAd={trip.from}
           errorMessage={fields.from.errors}
@@ -142,7 +146,6 @@ const SearchBar = () => {
           onChangeAddress={onAddressChange}
           defaultAd={trip.to}
           errorMessage={fields.to.errors}
-
         />
         <DateSelector dateChanger={getDateFromInput} />
         <PassengerSelector handleNb={getPassengers} />

@@ -26,20 +26,11 @@ model Trip {
 
 model Address {
   id           String @id
-  label        String
-  score        Float
-  banId        String
-  type         String
-  name         String
   postcode     String
-  citycode     String
   x            Float
   y            Float
-  population   Int
   city         String
   context      String
-  importance   Float
-  municipality String
   tripFrom     Trip[] @relation("origin")
   tripTo       Trip[] @relation("destination")
 }
